@@ -50,7 +50,7 @@ def draw_results(frame, user_draw):
     # === Vẽ hình, viết chữ theo com_draw ===
     frame = cv2.putText(frame, 'Computer', (frame_w - overlay_size[0] - 50, 50), cv2.FONT_HERSHEY_SIMPLEX, # Điều chỉnh x_offset cho chữ
                         1, (0, 0, 255), 2, cv2.LINE_AA)
-
+    
     com_img_path = os.path.join("pix",str(com_draw) + ".png")
     if os.path.exists(com_img_path):
         s_img_com = cv2.imread(com_img_path)
@@ -90,8 +90,7 @@ def draw_results(frame, user_draw):
     text_x = (frame_w - text_size[0]) // 2
     text_y = frame_h - 50 # Cách đáy 50px
     frame = cv2.putText(frame, result, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX,
-                        1, (255, 0, 255), 2, cv2.LINE_AA)
-
+                        1, (255, 0, 255), 2, cv2.LINE_AA)           
     return frame # Trả về frame đã được vẽ kết quả
 
 last_frame_with_results = None
@@ -103,7 +102,7 @@ while True:
         print("Error reading frame from camera")
         break
     
-    display_frame = frame   
+    display_frame = cv2.flip(frame,1)   
 
     # Đưa hình ảnh vào detector
     detected_frame, hand_lms = detector.findHands(display_frame) # Vẽ lên display_frame
@@ -127,7 +126,8 @@ while True:
     # Hiển thị hướng dẫn hoặc trạng thái phát hiện
     cv2.putText(display_frame, instruction_text, (10, frame.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX,
                 0.7, (255, 255, 255), 2, cv2.LINE_AA)
-
+    cv2.putText(display_frame, "Bam space de choi", (80, frame.shape[0] - 70), cv2.FONT_HERSHEY_SIMPLEX,
+                0.7, (255, 255, 255), 2, cv2.LINE_AA)
 
     key = cv2.waitKey(1) 
 
